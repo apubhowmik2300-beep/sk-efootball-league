@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SK eFootball League</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#020914;
+    color:white;
+}
+
+header{
+    background:#061525;
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #24384d;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-box{
+    width:45px;
+    height:45px;
+    border:2px solid #ffc400;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#ffc400;
+    font-weight:bold;
+}
+
+.logo h2{
+    font-size:17px;
+}
+
+.admin-btn{
+    background:#ffc400;
+    border:none;
+    padding:10px 15px;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+nav{
+    background:#091b2d;
+    padding:14px;
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    overflow-x:auto;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:bold;
+}
+
+nav a:hover{
+    color:#ffc400;
+}
+
+.hero{
+    min-height:420px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:30px 20px;
+
+    background:
+    radial-gradient(circle at center,#17416d 0%,#071727 45%,#020914 80%);
+}
+
+.hero small{
+    color:#ffc400;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.hero h1{
+    font-size:45px;
+    margin:15px 0;
+}
+
+.hero h1 span{
+    color:#ffc400;
+}
+
+.hero p{
+    color:#b9c7d6;
+    font-size:18px;
+}
+
+.start-btn{
+    margin-top:25px;
+    padding:13px 25px;
+    border:none;
+    border-radius:6px;
+    background:#ffc400;
+    font-weight:bold;
+}
+
+.section{
+    width:92%;
+    max-width:1100px;
+    margin:30px auto;
+}
+
+.section-title{
+    margin-bottom:15px;
+    color:#ffc400;
+}
+
+.empty{
+    background:#071727;
+    border:1px solid #24384d;
+    padding:40px 20px;
+    text-align:center;
+    border-radius:8px;
+    color:#9eacbb;
+}
+
+footer{
+    margin-top:50px;
+    padding:30px 20px;
+    background:#030b15;
+    text-align:center;
+    color:#78899b;
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:12px;
+    }
+
+    .logo h2{
+        font-size:13px;
+    }
+
+    .admin-btn{
+        padding:8px 10px;
+        font-size:11px;
+    }
+
+    .hero h1{
+        font-size:32px;
+    }
+
+    nav{
+        justify-content:flex-start;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+<div class="logo-box">
+SK
+</div>
+
+<h2>SK eFootball League</h2>
+
+</div>
+
+<button class="admin-btn" onclick="openAdmin()">
+🔐 ADMIN LOGIN
+</button>
+
+</header>
+
+
+<nav>
+
+<a href="#">HOME</a>
+<a href="#">TABLE</a>
+<a href="#">FIXTURES</a>
+<a href="#">RESULTS</a>
+<a href="#">TEAMS</a>
+<a href="#">PLAYERS</a>
+<a href="#">STATS</a>
+<a href="#">NEWS</a>
+
+</nav>
+
+
+<section class="hero">
+
+<div>
+
+<small>SEASON 1 • 2026</small>
+
+<h1>
+SK <span>eFOOTBALL</span> LEAGUE
+</h1>
+
+<p>
+The home of competitive eFootball.
+</p>
+
+<button class="start-btn">
+COMING SOON
+</button>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<h2 class="section-title">
+🏆 LEAGUE TABLE
+</h2>
+
+<div class="empty">
+
+<p>
+No teams have been added yet.
+</p>
+
+<p>
+Admin will add teams from the dashboard.
+</p>
+
+</div>
+
+</section>
+
+
+<section class="section">
+
+<h2 class="section-title">
+⚽ UPCOMING MATCHES
+</h2>
+
+<div class="empty">
+
+<p>
+No fixtures have been created yet.
+</p>
+
+<p>
+Admin will create fixtures from the dashboard.
+</p>
+
+</div>
+
+</section>
+
+
+<footer>
+
+<h3>SK eFootball League</h3>
+
+<p>Play. Compete. Win.</p>
+
+<br>
+
+<p>© 2026 SK eFootball League</p>
+
+</footer>
+
+
+<script>
+
+function openAdmin(){
+
+alert(
+"ADMIN LOGIN\n\nAdmin authentication will be connected in the next step."
+);
+
+}
+
+</script>
+
+</body>
+</html>
