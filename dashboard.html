@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SK eFootball League - Admin Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: white;
+    }
+
+    header {
+      background: #101d2f;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #263951;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h2 {
+      margin: 0;
+      color: #00ff88;
+      font-size: 19px;
+    }
+
+    #logoutBtn {
+      border: 0;
+      background: #ff4444;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .container {
+      width: 94%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px 0 40px;
+    }
+
+    .title h1 {
+      margin-bottom: 5px;
+    }
+
+    .title p {
+      color: #aaa;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .card {
+      background: #101d2f;
+      border: 1px solid #263951;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .number {
+      color: #00ff88;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .section {
+      background: #101d2f;
+      border: 1px solid #263951;
+      border-radius: 15px;
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    .section h2 {
+      color: #00ff88;
+      margin-top: 0;
+    }
+
+    .status {
+      color: #00ff88;
+    }
+
+    .user-card {
+      background: #0b1727;
+      border: 1px solid #263951;
+      border-radius: 14px;
+      padding: 15px;
+      margin-top: 14px;
+    }
+
+    .user-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #1c2b40;
+      border: 2px solid #00ff88;
+    }
+
+    .no-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #1c2b40;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 25px;
+    }
+
+    .user-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .team-name {
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    .uid {
+      color: #666;
+      font-size: 11px;
+      margin-top: 8px;
+      word-break: break-all;
+    }
+
+    .edit-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 11px;
+      border: 0;
+      border-radius: 8px;
+      background: #00ff88;
+      color: #06130d;
+      font-weight: bold;
+    }
+
+    .empty {
+      text-align: center;
+      color: #aaa;
+      padding: 25px;
+    }
+
+    /* Modal */
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 100;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 500px;
+      margin: 30px auto;
+      background: #101d2f;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid #263951;
+    }
+
+    .modal-box h2 {
+      color: #00ff88;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      color: #aaa;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      outline: none;
+      border-radius: 8px;
+      background: #1c2b40;
+      color: white;
+      font-size: 15px;
+    }
+
+    .save-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 13px;
+      border: 0;
+      border-radius: 8px;
+      background: #00ff88;
+      color: #06130d;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .close-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 11px;
+      border: 0;
+      border-radius: 8px;
+      background: #33445b;
+      color: white;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 12px;
+      min-height: 20px;
+    }
+
+    @media (min-width: 700px) {
+      .cards {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .users-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .user-card {
+        margin-top: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2>⚽ SK eFootball League</h2>
+  <button id="logoutBtn">Logout</button>
+</header>
+
+
+<div class="container">
+
+  <div class="title">
+    <h1>Admin Dashboard</h1>
+    <p>League management control panel</p>
+  </div>
+
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>👥 Users</h3>
+      <div class="number" id="userCount">0</div>
+    </div>
+
+    <div class="card">
+      <h3>⚽ Teams</h3>
+      <div class="number" id="teamCount">0</div>
+    </div>
+
+    <div class="card">
+      <h3>🏟️ Matches</h3>
+      <div class="number" id="matchCount">0</div>
+    </div>
+
+    <div class="card">
+      <h3>🏆 Results</h3>
+      <div class="number" id="resultCount">0</div>
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <h2>🔐 Admin Status</h2>
+
+    <p class="status" id="status">
+      Checking admin permission...
+    </p>
+
+    <p>
+      Admin UID:
+      <span id="adminUid"></span>
+    </p>
+
+  </div>
+
+
+  <div class="section">
+
+    <h2>👥 User Management</h2>
+
+    <div id="usersList">
+      <div class="empty">
+        Loading users...
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- <!-- FIXTURES MANAGEMENT -->
+
+<div class="section">
+
+  <h2>📅 Fixtures Management</h2>
+
+  <label>Home Team</label>
+
+  <select id="homeTeam">
+    <option value="">Select Home Team</option>
+  </select>
+
+
+  <label>Away Team</label>
+
+  <select id="awayTeam">
+    <option value="">Select Away Team</option>
+  </select>
+
+
+  <label>Match Date</label>
+
+  <input type="date" id="matchDate">
+
+
+  <button class="save-btn" id="createFixtureBtn">
+    ➕ Create Fixture
+  </button>
+
+
+  <div class="message" id="fixtureMessage"></div>
+
+
+  <h3 style="margin-top:25px;">
+    📋 Upcoming Fixtures
+  </h3>
+
+  <div id="fixturesList">
+    <div class="empty">
+      Loading fixtures...
+    </div>
+  </div>
+
+</div> MODAL -->
+
+<div class="modal" id="editModal">
+
+  <div class="modal-box">
+
+    <h2>✏️ Edit User</h2>
+
+    <input type="hidden" id="editUid">
+
+
+    <label>Player Name</label>
+    <input type="text" id="editName" placeholder="Player name">
+
+
+    <label>Team Name</label>
+    <input type="text" id="editTeam" placeholder="Team name">
+
+
+    <label>Matches Played</label>
+    <input type="number" id="editPlayed" min="0" value="0">
+
+
+    <label>Wins</label>
+    <input type="number" id="editWins" min="0" value="0">
+
+
+    <label>Draws</label>
+    <input type="number" id="editDraws" min="0" value="0">
+
+
+    <label>Losses</label>
+    <input type="number" id="editLosses" min="0" value="0">
+
+
+    <label>Goals For (GF)</label>
+    <input type="number" id="editGF" min="0" value="0">
+
+
+    <label>Goals Against (GA)</label>
+    <input type="number" id="editGA" min="0" value="0">
+
+
+    <label>Points</label>
+    <input type="number" id="editPoints" min="0" value="0">
+
+
+    <button class="save-btn" id="saveBtn">
+      💾 Save Changes
+    </button>
+
+    <button class="close-btn" id="closeBtn">
+      Close
+    </button>
+
+    <div class="message" id="editMessage"></div>
+
+  </div>
+
+</div>
+
+
+<script type="module">
+
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  import {
+  getDatabase,
+  ref,
+  get,
+  update,
+  push
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+  const firebaseConfig = {
+
+    apiKey: "AIzaSyAwOvO_D5UH5vcaaf9MOxIaizxd43Ft3pM",
+
+    authDomain:
+      "sk-efootball-league.firebaseapp.com",
+
+    projectId:
+      "sk-efootball-league",
+
+    storageBucket:
+      "sk-efootball-league.firebasestorage.app",
+
+    messagingSenderId:
+      "11290486774",
+
+    appId:
+      "1:11290486774:web:cb22b6ec27e1b94eae09d7",
+
+    databaseURL:
+      "https://sk-efootball-league-default-rtdb.firebaseio.com/"
+
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+
+  const auth = getAuth(app);
+
+  const db = getDatabase(app);
+
+
+  const usersList =
+    document.getElementById("usersList");
+
+  const userCount =
+    document.getElementById("userCount");
+
+  const teamCount =
+    document.getElementById("teamCount");
+
+  const adminUid =
+    document.getElementById("adminUid");
+
+  const status =
+    document.getElementById("status");
+
+  const modal =
+    document.getElementById("editModal");
+
+
+  let allUsers = {};
+
+
+
+  onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+      window.location.href = "admin.html";
+
+      return;
+    }
+
+
+    adminUid.textContent = user.uid;
+
+
+    try {
+
+      const adminSnapshot =
+        await get(
+          ref(db, "admins/" + user.uid)
+        );
+
+
+      if (
+        !adminSnapshot.exists() ||
+        adminSnapshot.val() !== true
+      ) {
+
+        status.textContent =
+          "❌ You are not an authorized admin.";
+
+        status.style.color = "#ff5555";
+
+        await signOut(auth);
+
+        setTimeout(() => {
+          window.location.href = "admin.html";
+        }, 1000);
+
+        return;
+      }
+
+
+      status.textContent =
+        "✅ Admin verification successful";
+
+      status.style.color = "#00ff88";
+
+
+      await loadUsers();
+
+    } catch (error) {
+
+      console.error(error);
+
+      status.textContent =
+        "❌ Database connection error.";
+
+      status.style.color = "#ff5555";
+
+    }
+
+  });
+
+
+
+  async function loadUsers() {
+
+    const snapshot =
+      await get(ref(db, "users"));
+
+
+    if (!snapshot.exists()) {
+
+      usersList.innerHTML =
+        '<div class="empty">No users found.</div>';
+
+      userCount.textContent = "0";
+      teamCount.textContent = "0";
+
+      return;
+    }
+
+
+    allUsers = snapshot.val();
+
+
+    const userKeys =
+      Object.keys(allUsers);
+
+
+    userCount.textContent =
+      userKeys.length;
+
+
+    let teams = 0;
+
+    usersList.innerHTML = "";
+
+
+    userKeys.forEach((uid) => {
+
+      const user =
+        allUsers[uid] || {};
+
+      const profile =
+        user.profile || {};
+
+      const stats =
+        user.stats || {};
+
+
+      if (profile.teamName) {
+        teams++;
+      }
+
+
+      const card =
+        document.createElement("div");
+
+      card.className = "user-card";
+
+
+      let logoHTML = "";
+
+      if (profile.logo) {
+
+        logoHTML =
+          `<img class="logo"
+          src="${profile.logo}"
+          alt="Logo">`;
+
+      } else {
+
+        logoHTML =
+          `<div class="no-logo">⚽</div>`;
+
+      }
+
+
+      card.innerHTML = `
+
+        <div class="user-top">
+
+          ${logoHTML}
+
+          <div>
+
+            <div class="user-name">
+              ${escapeHTML(profile.name || "Unnamed Player")}
+            </div>
+
+            <div class="team-name">
+              ${escapeHTML(profile.teamName || "No Team")}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="uid">
+          UID: ${escapeHTML(uid)}
+        </div>
+
+        <button class="edit-btn">
+          ✏️ Edit Player
+        </button>
+
+      `;
+
+
+      card
+        .querySelector(".edit-btn")
+        .addEventListener("click", () => {
+
+          openEdit(uid);
+
+        });
+
+
+      usersList.appendChild(card);
+
+    });
+
+
+    teamCount.textContent = teams;
+    loadTeamOptions();
+
+  }
+
+
+
+  function openEdit(uid) {
+
+    const user =
+      allUsers[uid] || {};
+
+    const profile =
+      user.profile || {};
+
+    const stats =
+      user.stats || {};
+
+
+    document.getElementById("editUid").value =
+      uid;
+
+    document.getElementById("editName").value =
+      profile.name || "";
+
+    document.getElementById("editTeam").value =
+      profile.teamName || "";
+
+    document.getElementById("editPlayed").value =
+      stats.played || 0;
+
+    document.getElementById("editWins").value =
+      stats.wins || 0;
+
+    document.getElementById("editDraws").value =
+      stats.draws || 0;
+
+    document.getElementById("editLosses").value =
+      stats.losses || 0;
+
+    document.getElementById("editGF").value =
+      stats.gf || 0;
+
+    document.getElementById("editGA").value =
+      stats.ga || 0;
+
+    document.getElementById("editPoints").value =
+      stats.points || 0;
+
+
+    document.getElementById("editMessage").textContent =
+      "";
+
+    modal.style.display = "block";
+
+  }
+
+
+
+  document
+    .getElementById("closeBtn")
+    .addEventListener("click", () => {
+
+      modal.style.display = "none";
+
+    });
+
+
+
+  document
+    .getElementById("saveBtn")
+    .addEventListener("click", async () => {
+
+      const uid =
+        document.getElementById("editUid").value;
+
+
+      const name =
+        document.getElementById("editName").value.trim();
+
+      const team =
+        document.getElementById("editTeam").value.trim();
+
+
+      const played =
+        Number(document.getElementById("editPlayed").value) || 0;
+
+      const wins =
+        Number(document.getElementById("editWins").value) || 0;
+
+      const draws =
+        Number(document.getElementById("editDraws").value) || 0;
+
+      const losses =
+        Number(document.getElementById("editLosses").value) || 0;
+
+      const gf =
+        Number(document.getElementById("editGF").value) || 0;
+
+      const ga =
+        Number(document.getElementById("editGA").value) || 0;
+
+      const points =
+        Number(document.getElementById("editPoints").value) || 0;
+
+
+      const message =
+        document.getElementById("editMessage");
+
+
+      if (!name) {
+
+        message.textContent =
+          "Player name দিন।";
+
+        message.style.color = "#ff5555";
+
+        return;
+
+      }
+
+
+      const saveBtn =
+        document.getElementById("saveBtn");
+
+      saveBtn.disabled = true;
+
+      saveBtn.textContent =
+        "Saving...";
+
+
+      try {
+
+        const changes = {};
+
+
+        changes[
+          "users/" + uid + "/profile/name"
+        ] = name;
+
+        changes[
+          "users/" + uid + "/profile/teamName"
+        ] = team;
+
+
+        changes[
+          "users/" + uid + "/stats/played"
+        ] = played;
+
+        changes[
+          "users/" + uid + "/stats/wins"
+        ] = wins;
+
+        changes[
+          "users/" + uid + "/stats/draws"
+        ] = draws;
+
+        changes[
+          "users/" + uid + "/stats/losses"
+        ] = losses;
+
+        changes[
+          "users/" + uid + "/stats/gf"
+        ] = gf;
+
+        changes[
+          "users/" + uid + "/stats/ga"
+        ] = ga;
+
+        changes[
+          "users/" + uid + "/stats/points"
+        ] = points;
+
+
+        await update(
+          ref(db),
+          changes
+        );
+
+
+        message.textContent =
+          "✅ Successfully saved!";
+
+        message.style.color =
+          "#00ff88";
+
+
+        await loadUsers();
+
+
+        setTimeout(() => {
+
+          modal.style.display = "none";
+
+        }, 800);
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+          "❌ Save করা যায়নি।";
+
+        message.style.color =
+          "#ff5555";
+
+      }
+
+
+      saveBtn.disabled = false;
+
+      saveBtn.textContent =
+        "💾 Save Changes";
+
+    });
+
+
+
+  document
+    .getElementById("logoutBtn")
+    .addEventListener("click", async () => {
+
+      await signOut(auth);
+
+      window.location.href =
+        "admin.html";
+
+    });
+
+
+
+  function escapeHTML(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+// ==============================
+// FIXTURES MANAGEMENT
+// ==============================
+
+  <!-- MATCH RESULTS -->
+
+<div class="section">
+
+  <h2>📝 Match Results</h2>
+
+  <select id="resultFixture">
+    <option value="">Select Fixture</option>
+  </select>
+
+  <label>Home Score</label>
+  <input type="number" id="homeScore" min="0" value="0">
+
+  <label>Away Score</label>
+  <input type="number" id="awayScore" min="0" value="0">
+
+  <button class="save-btn" id="saveResultBtn">
+    🏆 Save Match Result
+  </button>
+
+  <div class="message" id="resultMessage"></div>
+
+</div>
+  
+const homeTeam =
+  document.getElementById("homeTeam");
+
+const awayTeam =
+  document.getElementById("awayTeam");
+
+const matchDate =
+  document.getElementById("matchDate");
+
+const createFixtureBtn =
+  document.getElementById("createFixtureBtn");
+
+const fixtureMessage =
+  document.getElementById("fixtureMessage");
+
+const fixturesList =
+  document.getElementById("fixturesList");
+
+
+// Load teams into dropdowns
+
+function loadTeamOptions() {
+
+  homeTeam.innerHTML =
+    '<option value="">Select Home Team</option>';
+
+  awayTeam.innerHTML =
+    '<option value="">Select Away Team</option>';
+
+
+  Object.keys(allUsers).forEach((uid) => {
+
+    const profile =
+      allUsers[uid]?.profile || {};
+
+    const teamName =
+      profile.teamName || profile.name;
+
+    if (!teamName) return;
+
+
+    const option1 =
+      document.createElement("option");
+
+    option1.value = uid;
+
+    option1.textContent = teamName;
+
+    homeTeam.appendChild(option1);
+
+
+    const option2 =
+      document.createElement("option");
+
+    option2.value = uid;
+
+    option2.textContent = teamName;
+
+    awayTeam.appendChild(option2);
+
+  });
+
+}
+
+
+// Create fixture
+
+createFixtureBtn.addEventListener(
+  "click",
+  async () => {
+
+    const homeUid =
+      homeTeam.value;
+
+    const awayUid =
+      awayTeam.value;
+
+    const date =
+      matchDate.value;
+
+
+    fixtureMessage.textContent = "";
+
+
+    if (!homeUid || !awayUid || !date) {
+
+      fixtureMessage.textContent =
+        "⚠️ সব তথ্য পূরণ করুন।";
+
+      fixtureMessage.style.color =
+        "#ff5555";
+
+      return;
+    }
+
+
+    if (homeUid === awayUid) {
+
+      fixtureMessage.textContent =
+        "⚠️ একই Team-এর সাথে ম্যাচ দেওয়া যাবে না।";
+
+      fixtureMessage.style.color =
+        "#ff5555";
+
+      return;
+    }
+
+
+    createFixtureBtn.disabled = true;
+
+    createFixtureBtn.textContent =
+      "Creating...";
+
+
+    try {
+
+      const homeProfile =
+        allUsers[homeUid]?.profile || {};
+
+      const awayProfile =
+        allUsers[awayUid]?.profile || {};
+
+
+      const fixtureRef =
+        push(ref(db, "fixtures"));
+
+
+      await update(fixtureRef, {
+
+        homeUid: homeUid,
+
+        homeTeam:
+          homeProfile.teamName ||
+          homeProfile.name ||
+          "Unknown Team",
+
+        awayUid: awayUid,
+
+        awayTeam:
+          awayProfile.teamName ||
+          awayProfile.name ||
+          "Unknown Team",
+
+        date: date,
+
+        status: "upcoming",
+
+        createdAt: Date.now()
+
+      });
+
+
+      fixtureMessage.textContent =
+        "✅ Fixture successfully created!";
+
+      fixtureMessage.style.color =
+        "#00ff88";
+
+
+      homeTeam.value = "";
+
+      awayTeam.value = "";
+
+      matchDate.value = "";
+
+
+      await loadFixtures();
+      await loadResultFixtures();
+
+    } catch (error) {
+
+      console.error(error);
+
+      fixtureMessage.textContent =
+        "❌ Fixture তৈরি করা যায়নি।";
+
+      fixtureMessage.style.color =
+        "#ff5555";
+
+    }
+
+
+    createFixtureBtn.disabled = false;
+
+    createFixtureBtn.textContent =
+      "➕ Create Fixture";
+
+  }
+);
+
+
+// Load fixtures
+
+async function loadFixtures() {
+
+  try {
+
+    const snapshot =
+      await get(ref(db, "fixtures"));
+
+
+    fixturesList.innerHTML = "";
+
+
+    if (!snapshot.exists()) {
+
+      fixturesList.innerHTML =
+        '<div class="empty">No fixtures yet.</div>';
+
+      document.getElementById("matchCount")
+        .textContent = "0";
+
+      return;
+    }
+
+
+    const fixtures =
+      snapshot.val();
+
+    const fixtureKeys =
+      Object.keys(fixtures);
+
+
+    document.getElementById("matchCount")
+      .textContent = fixtureKeys.length;
+
+
+    fixtureKeys
+      .sort((a, b) => {
+
+        return String(fixtures[a].date || "")
+          .localeCompare(
+            String(fixtures[b].date || "")
+          );
+
+      })
+      .forEach((key) => {
+
+        const fixture =
+          fixtures[key];
+
+
+        const card =
+          document.createElement("div");
+
+        card.className =
+          "fixture-card";
+
+
+        card.innerHTML = `
+
+          <div class="fixture-teams">
+
+            ${escapeHTML(
+              fixture.homeTeam || "Home"
+            )}
+
+            <span style="color:#00ff88;">
+              VS
+            </span>
+
+            ${escapeHTML(
+              fixture.awayTeam || "Away"
+            )}
+
+          </div>
+
+          <div class="fixture-date">
+
+            📅 ${escapeHTML(
+              fixture.date || "No date"
+            )}
+
+          </div>
+
+          <div style="
+            text-align:center;
+            margin-top:8px;
+            color:#00ff88;
+          ">
+
+            ${escapeHTML(
+              fixture.status || "upcoming"
+            )}
+
+          </div>
+
+        `;
+
+
+        fixturesList.appendChild(card);
+
+      });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    fixturesList.innerHTML =
+      '<div class="empty">❌ Fixtures load করা যায়নি।</div>';
+
+  }
+
+  }
+
+// ==============================
+// MATCH RESULT SYSTEM
+// ==============================
+
+const resultFixture =
+  document.getElementById("resultFixture");
+
+const homeScore =
+  document.getElementById("homeScore");
+
+const awayScore =
+  document.getElementById("awayScore");
+
+const saveResultBtn =
+  document.getElementById("saveResultBtn");
+
+const resultMessage =
+  document.getElementById("resultMessage");
+
+
+// Load fixtures into Result dropdown
+
+async function loadResultFixtures() {
+
+  const snapshot =
+    await get(ref(db, "fixtures"));
+
+  resultFixture.innerHTML =
+    '<option value="">Select Fixture</option>';
+
+  if (!snapshot.exists()) {
+    return;
+  }
+
+  const fixtures =
+    snapshot.val();
+
+  Object.keys(fixtures).forEach((id) => {
+
+    const fixture =
+      fixtures[id];
+
+    const option =
+      document.createElement("option");
+
+    option.value = id;
+
+    option.textContent =
+      `${fixture.homeTeam} vs ${fixture.awayTeam} — ${fixture.date}`;
+
+    resultFixture.appendChild(option);
+
+  });
+
+}
+
+
+// Save Match Result
+
+saveResultBtn.addEventListener(
+  "click",
+  async () => {
+
+    const fixtureId =
+      resultFixture.value;
+
+    const hs =
+      Number(homeScore.value);
+
+    const as =
+      Number(awayScore.value);
+
+
+    resultMessage.textContent = "";
+
+
+    if (!fixtureId) {
+
+      resultMessage.textContent =
+        "⚠️ আগে একটি Fixture নির্বাচন করুন।";
+
+      resultMessage.style.color =
+        "#ff5555";
+
+      return;
+    }
+
+
+    if (hs < 0 || as < 0) {
+
+      resultMessage.textContent =
+        "⚠️ Score সঠিক দিন।";
+
+      resultMessage.style.color =
+        "#ff5555";
+
+      return;
+    }
+
+
+    saveResultBtn.disabled = true;
+
+    saveResultBtn.textContent =
+      "Saving...";
+
+
+    try {
+
+      const fixtureSnapshot =
+        await get(
+          ref(db, "fixtures/" + fixtureId)
+        );
+
+
+      if (!fixtureSnapshot.exists()) {
+
+        throw new Error(
+          "Fixture not found"
+        );
+
+      }
+
+
+      const fixture =
+        fixtureSnapshot.val();
+
+
+      const resultData = {
+
+        fixtureId: fixtureId,
+
+        homeUid: fixture.homeUid,
+
+        homeTeam: fixture.homeTeam,
+
+        homeScore: hs,
+
+        awayUid: fixture.awayUid,
+
+        awayTeam: fixture.awayTeam,
+
+        awayScore: as,
+
+        date: fixture.date,
+
+        createdAt: Date.now()
+
+      };
+
+
+      // Save result
+
+      await update(
+        ref(db, "results/" + fixtureId),
+        resultData
+      );
+
+
+      // Calculate Home statistics
+
+      let homeStats =
+        await getStats(fixture.homeUid);
+
+
+      // Calculate Away statistics
+
+      let awayStats =
+        await getStats(fixture.awayUid);
+
+
+      // Played
+
+      homeStats.played += 1;
+
+      awayStats.played += 1;
+
+
+      // GF / GA
+
+      homeStats.gf += hs;
+
+      homeStats.ga += as;
+
+      awayStats.gf += as;
+
+      awayStats.ga += hs;
+
+
+      // Win / Draw / Loss
+
+      if (hs > as) {
+
+        homeStats.wins += 1;
+
+        awayStats.losses += 1;
+
+        homeStats.points += 3;
+
+      }
+
+      else if (hs < as) {
+
+        awayStats.wins += 1;
+
+        homeStats.losses += 1;
+
+        awayStats.points += 3;
+
+      }
+
+      else {
+
+        homeStats.draws += 1;
+
+        awayStats.draws += 1;
+
+        homeStats.points += 1;
+
+        awayStats.points += 1;
+
+      }
+
+
+      // GD
+
+      homeStats.gd =
+        homeStats.gf - homeStats.ga;
+
+      awayStats.gd =
+        awayStats.gf - awayStats.ga;
+
+
+      // Save statistics
+
+      await update(
+        ref(db),
+        {
+          ["users/" + fixture.homeUid + "/stats"]:
+            homeStats,
+
+          ["users/" + fixture.awayUid + "/stats"]:
+            awayStats,
+
+          ["fixtures/" + fixtureId + "/status"]:
+            "completed",
+
+          ["fixtures/" + fixtureId + "/result"]:
+            `${hs}-${as}`,
+
+          ["results/" + fixtureId]:
+            resultData
+        }
+      );
+
+
+      resultMessage.textContent =
+        "✅ Result saved successfully!";
+
+      resultMessage.style.color =
+        "#00ff88";
+
+
+      homeScore.value = 0;
+
+      awayScore.value = 0;
+
+
+      await loadFixtures();
+
+      await loadResultFixtures();
+
+      await loadUsers();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      resultMessage.textContent =
+        "❌ Result save করা যায়নি।";
+
+      resultMessage.style.color =
+        "#ff5555";
+
+    }
+
+
+    saveResultBtn.disabled = false;
+
+    saveResultBtn.textContent =
+      "🏆 Save Match Result";
+
+  }
+);
+
+
+// Get existing statistics
+
+async function getStats(uid) {
+
+  const snapshot =
+    await get(
+      ref(db, "users/" + uid + "/stats")
+    );
+
+
+  const stats =
+    snapshot.exists()
+      ? snapshot.val()
+      : {};
+
+
+  return {
+
+    played: Number(stats.played) || 0,
+
+    wins: Number(stats.wins) || 0,
+
+    draws: Number(stats.draws) || 0,
+
+    losses: Number(stats.losses) || 0,
+
+    gf: Number(stats.gf) || 0,
+
+    ga: Number(stats.ga) || 0,
+
+    gd: Number(stats.gd) || 0,
+
+    points: Number(stats.points) || 0
+
+  };
+
+}
+</script>
+
+</body>
+</html>
