@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>My Profile - SK eFootball League</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:
+    radial-gradient(
+        circle at top,
+        #12385d,
+        #020914 65%
+    );
+
+    color:white;
+}
+
+
+/* HEADER */
+
+header{
+
+    height:65px;
+
+    background:#061525;
+
+    border-bottom:1px solid #263b50;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 18px;
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.logo-box{
+
+    width:42px;
+    height:42px;
+
+    border:2px solid #ffc400;
+
+    border-radius:10px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#ffc400;
+
+    font-weight:bold;
+}
+
+.logo h2{
+
+    font-size:16px;
+}
+
+.logout{
+
+    background:#c0392b;
+
+    color:white;
+
+    border:none;
+
+    padding:9px 13px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+}
+
+
+/* CONTAINER */
+
+.container{
+
+    width:92%;
+
+    max-width:850px;
+
+    margin:30px auto;
+}
+
+
+/* PROFILE CARD */
+
+.profile-card{
+
+    background:#071727;
+
+    border:1px solid #294158;
+
+    border-radius:12px;
+
+    padding:25px;
+
+}
+
+
+/* PROFILE TOP */
+
+.profile-top{
+
+    text-align:center;
+
+    padding-bottom:25px;
+
+    border-bottom:1px solid #263b50;
+}
+
+
+/* AVATAR */
+
+.avatar{
+
+    width:110px;
+
+    height:110px;
+
+    margin:0 auto 15px;
+
+    border-radius:50%;
+
+    background:#102941;
+
+    border:3px solid #ffc400;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+
+    color:#ffc400;
+
+    font-size:32px;
+
+    font-weight:bold;
+}
+
+.avatar img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+
+.email{
+
+    color:#8da0b2;
+
+    font-size:14px;
+
+    margin-top:6px;
+}
+
+
+/* FORM */
+
+.edit-section{
+
+    margin-top:25px;
+}
+
+.edit-section h2{
+
+    color:#ffc400;
+
+    margin-bottom:18px;
+
+    font-size:20px;
+}
+
+label{
+
+    display:block;
+
+    margin:14px 0 7px;
+
+    font-size:14px;
+}
+
+input{
+
+    width:100%;
+
+    padding:13px;
+
+    background:#0b2034;
+
+    border:1px solid #294158;
+
+    border-radius:6px;
+
+    color:white;
+
+    outline:none;
+}
+
+input:focus{
+
+    border-color:#ffc400;
+}
+
+
+.save-btn{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:13px;
+
+    background:#ffc400;
+
+    border:none;
+
+    border-radius:6px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* STATS */
+
+.stats{
+
+    margin-top:30px;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:10px;
+}
+
+.stat{
+
+    background:#0b2034;
+
+    border:1px solid #263b50;
+
+    border-radius:7px;
+
+    text-align:center;
+
+    padding:15px 5px;
+}
+
+.stat h3{
+
+    color:#ffc400;
+
+    font-size:21px;
+
+    margin-bottom:5px;
+}
+
+.stat p{
+
+    color:#8da0b2;
+
+    font-size:12px;
+}
+
+
+/* MESSAGE */
+
+.message{
+
+    display:none;
+
+    text-align:center;
+
+    margin-top:15px;
+
+    padding:10px;
+
+    border-radius:6px;
+
+    font-size:14px;
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .stats{
+
+        grid-template-columns:
+        repeat(2,1fr);
+    }
+
+    .profile-card{
+
+        padding:20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+
+<div class="logo-box">
+SK
+</div>
+
+<h2>
+SK eFootball League
+</h2>
+
+</div>
+
+<button
+class="logout"
+id="logoutBtn">
+
+Logout
+
+</button>
+
+</header>
+
+
+
+<div class="container">
+
+
+<div class="profile-card">
+
+
+<div class="profile-top">
+
+<div
+class="avatar"
+id="avatar">
+
+SK
+
+</div>
+
+<h1 id="displayName">
+Loading...
+</h1>
+
+<p
+class="email"
+id="displayEmail">
+</p>
+
+</div>
+
+
+
+<div class="edit-section">
+
+<h2>
+✏️ My Profile
+</h2>
+
+
+<label>
+Your Name
+</label>
+
+<input
+type="text"
+id="name"
+placeholder="Enter your name"
+maxlength="50"
+>
+
+
+<label>
+Team Name
+</label>
+
+<input
+type="text"
+id="teamName"
+placeholder="Enter your team name"
+maxlength="50"
+>
+
+
+<label>
+Team Logo
+</label>
+
+<input
+type="file"
+id="logoInput"
+accept="image/png,image/jpeg,image/webp"
+>
+
+
+<button
+class="save-btn"
+id="saveBtn">
+
+💾 SAVE PROFILE
+
+</button>
+
+
+<div
+class="message"
+id="message">
+</div>
+
+</div>
+
+
+
+<!-- STATISTICS -->
+
+<div class="stats">
+
+<div class="stat">
+
+<h3 id="matches">
+0
+</h3>
+
+<p>
+Matches
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h3 id="wins">
+0
+</h3>
+
+<p>
+Wins
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h3 id="draws">
+0
+</h3>
+
+<p>
+Draws
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h3 id="losses">
+0
+</h3>
+
+<p>
+Losses
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h3 id="gf">
+0
+</h3>
+
+<p>
+GF
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h3 id="ga">
+0
+</h3>
+
+<p>
+GA
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h3 id="gd">
+0
+</h3>
+
+<p>
+GD
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h3 id="points">
+0
+</h3>
+
+<p>
+Points
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<script type="module">
+
+
+/* FIREBASE */
+
+import {
+
+    initializeApp
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+
+import {
+
+    getAuth,
+    onAuthStateChanged,
+    signOut
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+
+import {
+
+    getDatabase,
+    ref,
+    get,
+    set
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+
+
+/* CONFIG */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyAwOvO_D5UH5vcaaf9MOxIaizxd43Ft3pM",
+
+    authDomain:
+    "sk-efootball-league.firebaseapp.com",
+
+    projectId:
+    "sk-efootball-league",
+
+    storageBucket:
+    "sk-efootball-league.firebasestorage.app",
+
+    messagingSenderId:
+    "11290486774",
+
+    appId:
+    "1:11290486774:web:cb22b6ec27e1b94eae09d7",
+
+    databaseURL:
+    "https://sk-efootball-league-default-rtdb.firebaseio.com/"
+
+};
+
+
+
+/* INITIALIZE */
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getDatabase(app);
+
+
+
+let currentUser = null;
+
+
+
+/* AUTH CHECK */
+
+onAuthStateChanged(
+auth,
+async (user) => {
+
+    if(!user){
+
+        window.location.href =
+        "login.html";
+
+        return;
+
+    }
+
+
+    currentUser = user;
+
+
+    document.getElementById(
+        "displayEmail"
+    ).innerText = user.email;
+
+
+    await loadProfile();
+
+});
+
+
+
+/* LOAD PROFILE */
+
+async function loadProfile(){
+
+    try{
+
+        const profileRef =
+        ref(
+            db,
+            "users/" +
+            currentUser.uid +
+            "/profile"
+        );
+
+
+        const snapshot =
+        await get(profileRef);
+
+
+        if(snapshot.exists()){
+
+            const data =
+            snapshot.val();
+
+
+            document.getElementById(
+                "name"
+            ).value =
+            data.name || "";
+
+
+            document.getElementById(
+                "teamName"
+            ).value =
+            data.teamName || "";
+
+
+            document.getElementById(
+                "displayName"
+            ).innerText =
+            data.name ||
+            "SK eFootball User";
+
+
+            if(data.logo){
+
+                document.getElementById(
+                    "avatar"
+                ).innerHTML =
+                `<img src="${data.logo}">`;
+
+            }
+
+        }
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+
+    /* LOAD STATS */
+
+    try{
+
+        const statsRef =
+        ref(
+            db,
+            "users/" +
+            currentUser.uid +
+            "/stats"
+        );
+
+
+        const statsSnapshot =
+        await get(statsRef);
+
+
+        if(statsSnapshot.exists()){
+
+            const stats =
+            statsSnapshot.val();
+
+
+            document.getElementById(
+                "matches"
+            ).innerText =
+            stats.matches || 0;
+
+
+            document.getElementById(
+                "wins"
+            ).innerText =
+            stats.wins || 0;
+
+
+            document.getElementById(
+                "draws"
+            ).innerText =
+            stats.draws || 0;
+
+
+            document.getElementById(
+                "losses"
+            ).innerText =
+            stats.losses || 0;
+
+
+            document.getElementById(
+                "gf"
+            ).innerText =
+            stats.gf || 0;
+
+
+            document.getElementById(
+                "ga"
+            ).innerText =
+            stats.ga || 0;
+
+
+            document.getElementById(
+                "gd"
+            ).innerText =
+            stats.gd || 0;
+
+
+            document.getElementById(
+                "points"
+            ).innerText =
+            stats.points || 0;
+
+        }
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+
+/* SAVE PROFILE */
+
+document
+.getElementById("saveBtn")
+.addEventListener(
+"click",
+async function(){
+
+    if(!currentUser)
+        return;
+
+
+    const name =
+    document.getElementById(
+        "name"
+    ).value.trim();
+
+
+    const teamName =
+    document.getElementById(
+        "teamName"
+    ).value.trim();
+
+
+    const logoFile =
+    document.getElementById(
+        "logoInput"
+    ).files[0];
+
+
+    const message =
+    document.getElementById(
+        "message"
+    );
+
+
+    if(name === ""){
+
+        showMessage(
+            "❌ Please enter your name.",
+            false
+        );
+
+        return;
+
+    }
+
+
+    if(teamName === ""){
+
+        showMessage(
+            "❌ Please enter your team name.",
+            false
+        );
+
+        return;
+
+    }
+
+
+    /* SAVE WITHOUT NEW LOGO */
+
+    if(!logoFile){
+
+        await saveProfile(
+            name,
+            teamName,
+            null
+        );
+
+        return;
+
+    }
+
+
+    /* CHECK FILE */
+
+    if(logoFile.size >
+    5 * 1024 * 1024){
+
+        showMessage(
+            "❌ Logo must be under 5MB.",
+            false
+        );
+
+        return;
+
+    }
+
+
+    /* READ & RESIZE LOGO */
+
+    const reader =
+    new FileReader();
+
+
+    reader.onload =
+    function(e){
+
+        const img =
+        new Image();
+
+
+        img.onload =
+        function(){
+
+            const canvas =
+            document.createElement(
+                "canvas"
+            );
+
+
+            const maxSize = 300;
+
+
+            let width =
+            img.width;
+
+            let height =
+            img.height;
+
+
+            if(width > height){
+
+                if(width > maxSize){
+
+                    height =
+                    height *
+                    maxSize /
+                    width;
+
+                    width =
+                    maxSize;
+
+                }
+
+            }
+
+            else{
+
+                if(height > maxSize){
+
+                    width =
+                    width *
+                    maxSize /
+                    height;
+
+                    height =
+                    maxSize;
+
+                }
+
+            }
+
+
+            canvas.width =
+            width;
+
+            canvas.height =
+            height;
+
+
+            const ctx =
+            canvas.getContext("2d");
+
+
+            ctx.drawImage(
+                img,
+                0,
+                0,
+                width,
+                height
+            );
+
+
+            const logo =
+            canvas.toDataURL(
+                "image/jpeg",
+                0.75
+            );
+
+
+            saveProfile(
+                name,
+                teamName,
+                logo
+            );
+
+        };
+
+
+        img.src =
+        e.target.result;
+
+    };
+
+
+    reader.readAsDataURL(
+        logoFile
+    );
+
+});
+
+
+
+/* SAVE FUNCTION */
+
+async function saveProfile(
+    name,
+    teamName,
+    logo
+){
+
+    const message =
+    document.getElementById(
+        "message"
+    );
+
+
+    try{
+
+        const profileRef =
+        ref(
+            db,
+            "users/" +
+            currentUser.uid +
+            "/profile"
+        );
+
+
+        let oldLogo = "";
+
+
+        if(logo === null){
+
+            const oldData =
+            await get(profileRef);
+
+
+            if(oldData.exists()){
+
+                oldLogo =
+                oldData.val().logo ||
+                "";
+
+            }
+
+        }
+
+
+        await set(
+            profileRef,
+            {
+
+                name:
+                name,
+
+                teamName:
+                teamName,
+
+                logo:
+                logo !== null
+                ? logo
+                : oldLogo
+
+            }
+        );
+
+
+        document.getElementById(
+            "displayName"
+        ).innerText =
+        name;
+
+
+        if(logo !== null){
+
+            document.getElementById(
+                "avatar"
+            ).innerHTML =
+            `<img src="${logo}">`;
+
+        }
+
+
+        showMessage(
+            "✅ Profile saved successfully!",
+            true
+        );
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        showMessage(
+            "❌ Could not save profile. " +
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+
+/* MESSAGE */
+
+function showMessage(
+    text,
+    success
+){
+
+    const message =
+    document.getElementById(
+        "message"
+    );
+
+
+    message.style.display =
+    "block";
+
+
+    message.style.background =
+    success
+    ? "#123b2c"
+    : "#3b1717";
+
+
+    message.style.color =
+    success
+    ? "#62e6a5"
+    : "#ff7777";
+
+
+    message.innerText =
+    text;
+
+}
+
+
+
+/* LOGOUT */
+
+document
+.getElementById("logoutBtn")
+.addEventListener(
+"click",
+async function(){
+
+    await signOut(auth);
+
+    window.location.href =
+    "login.html";
+
+});
+
+</script>
+
+</body>
+
+</html>
