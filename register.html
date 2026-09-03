@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Create Account - SK eFootball League</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:radial-gradient(circle at center,#12385d,#020914 70%);
+    color:white;
+}
+
+.box{
+    width:92%;
+    max-width:400px;
+    background:#071727;
+    border:1px solid #294158;
+    border-radius:12px;
+    padding:30px 24px;
+}
+
+.logo{
+    width:60px;
+    height:60px;
+    margin:0 auto 15px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border:2px solid #ffc400;
+    border-radius:14px;
+    color:#ffc400;
+    font-size:20px;
+    font-weight:bold;
+}
+
+h1{
+    text-align:center;
+    font-size:23px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#91a3b5;
+    margin:8px 0 25px;
+}
+
+label{
+    display:block;
+    margin:14px 0 7px;
+    font-size:14px;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    background:#0b2034;
+    border:1px solid #294158;
+    border-radius:6px;
+    color:white;
+    outline:none;
+}
+
+input:focus{
+    border-color:#ffc400;
+}
+
+button{
+    width:100%;
+    margin-top:22px;
+    padding:13px;
+    background:#ffc400;
+    border:none;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.message{
+    display:none;
+    margin-top:15px;
+    text-align:center;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.login{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    color:#ffc400;
+    text-decoration:none;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <div class="logo">SK</div>
+
+    <h1>Create Account</h1>
+
+    <p class="subtitle">
+        Join SK eFootball League
+    </p>
+
+    <form id="registerForm">
+
+        <label>Full Name</label>
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter your name"
+            required
+        >
+
+        <label>Email</label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+        >
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Minimum 6 characters"
+            minlength="6"
+            required
+        >
+
+        <label>Confirm Password</label>
+
+        <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Enter password again"
+            minlength="6"
+            required
+        >
+
+        <button type="submit">
+            CREATE ACCOUNT
+        </button>
+
+    </form>
+
+    <div class="message" id="message"></div>
+
+    <a class="login" href="login.html">
+        Already have an account? Login
+    </a>
+
+</div>
+
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+import {
+    getAuth,
+    createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+
+/* YOUR FIREBASE CONFIG */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyAwOvO_D5UH5vcaaf9MOxIaizxd43Ft3pM",
+
+    authDomain: "sk-efootball-league.firebaseapp.com",
+
+    projectId: "sk-efootball-league",
+
+    storageBucket: "sk-efootball-league.firebasestorage.app",
+
+    messagingSenderId: "11290486774",
+
+    appId: "1:11290486774:web:cb22b6ec27e1b94eae09d7"
+};
+
+
+/* START FIREBASE */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+
+/* REGISTER */
+
+document
+.getElementById("registerForm")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+    const message =
+        document.getElementById("message");
+
+
+    if(password !== confirmPassword){
+
+        message.style.display="block";
+
+        message.style.color="#ff6b6b";
+
+        message.innerText =
+            "❌ Passwords do not match.";
+
+        return;
+    }
+
+
+    try{
+
+        const userCredential =
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+        console.log(
+            "Account created:",
+            userCredential.user.uid
+        );
+
+
+        message.style.display="block";
+
+        message.style.color="#62e6a5";
+
+        message.innerText =
+            "✅ Account created successfully!";
+
+
+        /*
+        NEXT STEP:
+        We will save the user's name,
+        team information and profile
+        into Firebase Database.
+        */
+
+
+        setTimeout(function(){
+
+            window.location.href="login.html";
+
+        },1500);
+
+
+    }
+
+    catch(error){
+
+        message.style.display="block";
+
+        message.style.color="#ff6b6b";
+
+
+        if(error.code ===
+            "auth/email-already-in-use"){
+
+            message.innerText =
+                "❌ This email is already registered.";
+
+        }
+
+        else if(error.code ===
+            "auth/weak-password"){
+
+            message.innerText =
+                "❌ Password must be at least 6 characters.";
+
+        }
+
+        else if(error.code ===
+            "auth/invalid-email"){
+
+            message.innerText =
+                "❌ Invalid email address.";
+
+        }
+
+        else{
+
+            message.innerText =
+                "❌ " + error.message;
+
+        }
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
