@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SK eFootball League - Admin</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: white;
+    }
+
+    .box {
+      width: 90%;
+      max-width: 400px;
+      background: #101d2f;
+      padding: 30px 25px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #00ff88;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #1c2b40;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #00ff88;
+      color: #06130d;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 18px;
+      min-height: 20px;
+      color: #ff7777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+
+    <h1>SK eFootball League</h1>
+
+    <div class="subtitle">
+      Admin Login
+    </div>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="Admin Email"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+    >
+
+    <button id="loginBtn">
+      Login as Admin
+    </button>
+
+    <div id="message"></div>
+
+  </div>
+
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+    import {
+      getAuth,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+    import {
+      getDatabase,
+      ref,
+      get
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAwOvO_D5UH5vcaaf9MOxIaizxd43Ft3pM",
+      authDomain: "sk-efootball-league.firebaseapp.com",
+      projectId: "sk-efootball-league",
+      storageBucket: "sk-efootball-league.firebasestorage.app",
+      messagingSenderId: "11290486774",
+      appId: "1:11290486774:web:cb22b6ec27e1b94eae09d7",
+      databaseURL: "https://sk-efootball-league-default-rtdb.firebaseio.com/"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const db = getDatabase(app);
+
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.getElementById("loginBtn");
+    const message = document.getElementById("message");
+
+
+    loginBtn.addEventListener("click", async () => {
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      message.textContent = "";
+
+      if (!email || !password) {
+        message.textContent = "Email and password দিন";
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Checking...";
+
+      try {
+
+        const userCredential =
+          await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+        const uid = userCredential.user.uid;
+
+        const adminRef = ref(
+          db,
+          "admins/" + uid
+        );
+
+        const snapshot = await get(adminRef);
+
+        if (snapshot.exists() && snapshot.val() === true) {
+
+          window.location.href = "dashboard.html";
+
+        } else {
+
+          await auth.signOut();
+
+          message.textContent =
+            "এই account-টি Admin হিসেবে অনুমোদিত নয়।";
+
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+        message.textContent =
+          "Email অথবা password ভুল হয়েছে।";
+
+      }
+
+      loginBtn.disabled = false;
+      loginBtn.textContent = "Login as Admin";
+
+    });
+
+  </script>
+
+</body>
+</html>
